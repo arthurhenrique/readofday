@@ -1,1 +1,3 @@
-![working](./assets/working.gif)
+<p align="center">
+  <img alt="working" src="./assets/working.gif">
+</p>
