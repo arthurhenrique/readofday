@@ -1,4 +1,4 @@
-name: CI
+name: bible
 on:
   schedule:
     - cron: '0 0 * * *'
@@ -8,11 +8,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Run a one-line script
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: search gospel
         run: |
           seq $(($(date "+%d") * 5 - 5)) $(($(date "+%d") * 5)) | \
           xargs -I@ curl -Ss https://www.abibliadigital.com.br/api/verses/acf/sl/@ | \
-          jq '.verses[].text' > day_$(date "+%d")
+          jq '.verses[].text' > day_sl_$(date "+%d")
         
       - name: Set up Git
         run: |
@@ -21,12 +26,12 @@ jobs:
 
       - name: Commit changes
         run: |
-          git add day_$(date "+%d")
-          git commit -m "ready message prepared for you at: day_$(date "+%d")"
+          git add day_sl_$(date "+%d")
+          git commit -m "ready message prepared for you at: day_sl_$(date "+%d")"
 
       - name: Push changes
         run: |
           git push origin main
         env:
-          GITHUB_TOKEN: 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
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       
