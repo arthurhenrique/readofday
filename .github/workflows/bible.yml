@@ -7,8 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      BIBLE_BOOK: sl
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -19,19 +17,14 @@ jobs:
         run: |
           git config --global user.name 'arthur-bot'
           git config --global user.email 'arthur393@gmail.com'
-          mkdir -p bible/${BIBLE_BOOK}
-      
+
       - name: search gospel
         run: |
           ./bible/main.sh
-      
-      - name: write ref
-        run: |
-          echo "- [${BIBLE_BOOK} day_$(date "+%d")](bible/${BIBLE_BOOK}/day_$(date "+%d"))" >> README.md
-             
+
       - name: commit
         run: |
-          git add bible/${BIBLE_BOOK}/day_$(date "+%d") README.md
+          git add .
           git commit -m "ready message prepared for you at: day_$(date "+%d")"
 
       - name: push
