@@ -6,25 +6,19 @@ bible_books["sl"]="5" # 130 cap / 30 day of month
 BIBLE_BOOK="sl"
 
 mkdir -p bible/$BIBLE_BOOK
+mkdir -p bible/reads
 
 div=${bible_books[$BIBLE_BOOK]}
 
-seq $(($(date "+%d") * $div - $div)) $(($(date "+%d") * $div)) | \
-    xargs -I@ curl -Ss https://www.abibliadigital.com.br/api/verses/acf/$BIBLE_BOOK/@ | \
+for i in $(seq $(($(date "+%d") * $div - $div)) $(($(date "+%d") * $div))); do
+    curl -Ss https://www.abibliadigital.com.br/api/verses/acf/$BIBLE_BOOK/$i | \
     jq '.verses[].text' | \
-    sed 's/\"//g' > tmp
+    sed 's/\"//g' > bible/$BIBLE_BOOK/$i
 
-while IFS= read -r line; do
-  echo "$line"
+    echo "" >> "bible/reads/day_$(date "+%d_%m_%Y")"
+    echo "$BIBLE_BOOK - $i" >> "bible/reads/day_$(date "+%d_%m_%Y")"
+    cat bible/$BIBLE_BOOK/$i >> "bible/reads/day_$(date "+%d_%m_%Y")"
+ done
 
-  ((line_count++))
 
-  if (( line_count == 3 )); then
-    echo ""
-    line_count=0
-  fi
-done < "tmp" > "bible/$BIBLE_BOOK/day_$(date "+%d")"
-
-rm -rf tmp
-
-echo "- [$BIBLE_BOOK day_$(date "+%d")](bible/$BIBLE_BOOK/day_$(date "+%d"))" >> README.md
+echo "- [$BIBLE_BOOK day_$(date "+%d_%m_%Y")](bible/reads/day_$(date "+%d_%m_%Y"))" >> README.md
