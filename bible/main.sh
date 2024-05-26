@@ -7,7 +7,7 @@ BIBLE_BOOK="sl"
 
 mkdir -p bible/$BIBLE_BOOK
 
-div=${bible_books[$BIBLE_BOOK]
+div=${bible_books[$BIBLE_BOOK]}
 
 seq $(($(date "+%d") * $div - $div)) $(($(date "+%d") * $div)) | \
 xargs -I@ curl -Ss https://www.abibliadigital.com.br/api/verses/acf/$BIBLE_BOOK/@ | \
