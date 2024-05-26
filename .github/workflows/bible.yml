@@ -23,9 +23,7 @@ jobs:
       
       - name: search gospel
         run: |
-          seq $(($(date "+%d") * 5 - 5)) $(($(date "+%d") * 5)) | \
-          xargs -I@ curl -Ss https://www.abibliadigital.com.br/api/verses/acf/${BIBLE_BOOK}/@ | \
-          jq '.verses[].text' > bible/${BIBLE_BOOK}/day_$(date "+%d")
+          ./bible/main.sh
       
       - name: write ref
         run: |
