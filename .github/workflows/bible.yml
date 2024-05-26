@@ -13,23 +13,28 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
 
+      - name: setup
+        run: |
+          git config --global user.name 'arthur-bot'
+          git config --global user.email 'arthur393@gmail.com'
+          mkdir -p bible/sl
+      
       - name: search gospel
         run: |
           seq $(($(date "+%d") * 5 - 5)) $(($(date "+%d") * 5)) | \
           xargs -I@ curl -Ss https://www.abibliadigital.com.br/api/verses/acf/sl/@ | \
-          jq '.verses[].text' > day_sl_$(date "+%d")
-        
-      - name: Set up Git
+          jq '.verses[].text' > bible/sl/day_$(date "+%d")
+      
+      - name: write ref
         run: |
-          git config --global user.name 'arthur-bot'
-          git config --global user.email 'arthur393@gmail.com'
-
-      - name: Commit changes
+          echo "- bible/sl/day_$(date "+%d")" >> README.md
+             
+      - name: commit
         run: |
-          git add day_sl_$(date "+%d")
-          git commit -m "ready message prepared for you at: day_sl_$(date "+%d")"
+          git add bible/sl/day_$(date "+%d") README.md
+          git commit -m "ready message prepared for you at: day_$(date "+%d")"
 
-      - name: Push changes
+      - name: push
         run: |
           git push origin main
         env:
