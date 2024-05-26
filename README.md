@@ -1,4 +1,3 @@
-<p align="center">
-  <img alt="working" src="./assets/working.gif">
-</p>
-- bible/sl/day_26
+# Read psalms
+
+- [bible/sl/day_26](bible/sl/day_26)

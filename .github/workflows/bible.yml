@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      BIBLE_BOOK: sl
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -17,21 +19,21 @@ jobs:
         run: |
           git config --global user.name 'arthur-bot'
           git config --global user.email 'arthur393@gmail.com'
-          mkdir -p bible/sl
+          mkdir -p bible/${BIBLE_BOOK}
       
       - name: search gospel
         run: |
           seq $(($(date "+%d") * 5 - 5)) $(($(date "+%d") * 5)) | \
-          xargs -I@ curl -Ss https://www.abibliadigital.com.br/api/verses/acf/sl/@ | \
-          jq '.verses[].text' > bible/sl/day_$(date "+%d")
+          xargs -I@ curl -Ss https://www.abibliadigital.com.br/api/verses/acf/${BIBLE_BOOK}/@ | \
+          jq '.verses[].text' > bible/${BIBLE_BOOK}/day_$(date "+%d")
       
       - name: write ref
         run: |
-          echo "- bible/sl/day_$(date "+%d")" >> README.md
+          echo "- [${BIBLE_BOOK} day_$(date "+%d")](bible/${BIBLE_BOOK}/day_$(date "+%d"))" >> README.md
              
       - name: commit
         run: |
-          git add bible/sl/day_$(date "+%d") README.md
+          git add bible/${BIBLE_BOOK}/day_$(date "+%d") README.md
           git commit -m "ready message prepared for you at: day_$(date "+%d")"
 
       - name: push
@@ -39,4 +41,3 @@ jobs:
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      
