@@ -9,8 +9,9 @@ mkdir -p bible/$BIBLE_BOOK
 mkdir -p bible/reads
 
 div=${bible_books[$BIBLE_BOOK]}
-
-for i in $(seq $(($(date "+%d") * $div - $div)) $(($(date "+%d") * $div))); do
+start=$(($(date "+%d") * $div - $div))
+end=$(($(date "+%d") * $div))
+for i in $(seq  $start $end); do
     curl -Ss https://www.abibliadigital.com.br/api/verses/acf/$BIBLE_BOOK/$i | \
     jq '.verses[].text' | \
     sed 's/\"//g' > bible/$BIBLE_BOOK/$i
@@ -20,5 +21,11 @@ for i in $(seq $(($(date "+%d") * $div - $div)) $(($(date "+%d") * $div))); do
     cat bible/$BIBLE_BOOK/$i >> "bible/reads/day_$(date "+%d_%m_%Y")"
  done
 
+cat bible/reads/day_$(date "+%d_%m_%Y") > bible/reads/today
 
-echo "- [$BIBLE_BOOK day_$(date "+%d_%m_%Y")](bible/reads/day_$(date "+%d_%m_%Y"))" >> README.md
+echo "# Read of day" > README.md
+echo "" >> README.md
+echo "- [$BIBLE_BOOK ($start - $end)](bible/reads/today)" >> README.md
+
+git add .
+git commit -m "message prepared for you at: $(date "+%d_%m_%Y")"

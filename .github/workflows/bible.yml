@@ -22,11 +22,6 @@ jobs:
         run: |
           ./bible/main.sh
 
-      - name: commit
-        run: |
-          git add .
-          git commit -m "ready message prepared for you at: day_$(date "+%d")"
-
       - name: push
         run: |
           git push origin main
