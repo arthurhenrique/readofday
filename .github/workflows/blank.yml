@@ -1,0 +1,32 @@
+name: CI
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run a one-line script
+        run: |
+          seq $(($(date "+%d") * 5 - 5)) $(($(date "+%d") * 5)) | \
+          xargs -I@ curl -Ss https://www.abibliadigital.com.br/api/verses/acf/sl/@ | \
+          jq '.verses[].text' > day_$(date "+%d")
+        
+      - name: Set up Git
+        run: |
+          git config --global user.name 'arthur-bot'
+          git config --global user.email 'arthur393@gmail.com'
+
+      - name: Commit changes
+        run: |
+          git add day_$(date "+%d")
+          git commit -m "ready message prepared for you at: day_$(date "+%d")"
+
+      - name: Push changes
+        run: |
+          git push origin main
+        env:
+          GITHUB_TOKEN: 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
+      
