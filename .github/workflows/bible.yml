@@ -20,8 +20,10 @@ jobs:
         run: |
           ./bible/main.sh
 
-      - name: push
-        run: |
-          git push origin main
+      - uses: stefanzweifel/git-auto-commit-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          commit_message: "feat: read of day"
+          branch: main
+          file_pattern: .
