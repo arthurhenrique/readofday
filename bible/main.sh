@@ -26,6 +26,3 @@ cat bible/reads/day_$(date "+%d_%m_%Y") > bible/reads/today
 echo "# Read of day" > README.md
 echo "" >> README.md
 echo "- [$BIBLE_BOOK ($start - $end)](bible/reads/today)" >> README.md
-
-git add .
-git commit -m "message prepared for you at: $(date "+%d_%m_%Y")"
