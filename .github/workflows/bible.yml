@@ -17,7 +17,7 @@ jobs:
       - name: setup
         run: |
           git config --global user.name 'arthur-bot'
-          git config --global user.email 'arthur393@gmail.com'
+          git config --global user.email ${{ secrets.EMAIL }}
 
       - name: prepare read
         run: |
