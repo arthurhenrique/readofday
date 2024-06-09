@@ -9,8 +9,8 @@ mkdir -p bible/$BIBLE_BOOK
 mkdir -p bible/reads
 
 div=${bible_books[$BIBLE_BOOK]}
-start=$(($(date "+%d") * $div - $div))
-end=$(($(date "+%d") * $div))
+start=$(($(date "+%d") * $div - $div) | sed 's/^0//g')
+end=$(($(date "+%d") * $div) | sed 's/^0//g')
 for i in $(seq  $start $end); do
     curl -Ss https://www.abibliadigital.com.br/api/verses/acf/$BIBLE_BOOK/$i | \
     jq '.verses[].text' | \
