@@ -2,15 +2,18 @@
 
 declare -A bible_books
 bible_books["sl"]="5" # 130 cap / 30 day of month
+bible_books["ap"]="1" # 130 cap / 30 day of month
 
-BIBLE_BOOK="sl"
+BIBLE_BOOK="ap"
 
 mkdir -p bible/$BIBLE_BOOK
 mkdir -p bible/reads
 
 div=${bible_books[$BIBLE_BOOK]}
-start=$(echo $(($(date "+%d") * $div - $div)) | sed 's/^0//') 
-end=$(echo $(($(date "+%d") * $div)) | sed 's/^0//') 
+day=$(date "+%d" | sed 's/^0//')
+
+start=$(echo $(($day * $div - $div)))
+end=$(echo $(($day * $div)))
 for i in $(seq  $start $end); do
     curl -Ss https://www.abibliadigital.com.br/api/verses/acf/$BIBLE_BOOK/$i | \
     jq '.verses[].text' | \
