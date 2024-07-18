@@ -1,3 +1,3 @@
 # Read of day
 
-- [ap (16 - 17)](bible/reads/today)
+- [ap (17 - 18)](bible/reads/today)
