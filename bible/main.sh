@@ -2,9 +2,10 @@
 
 declare -A bible_books
 bible_books["sl"]="5" # 130 cap / 30 day of month
-bible_books["ap"]="1" # 130 cap / 30 day of month
+bible_books["ap"]="1" #  22 cap / 30 day of month
+bible_books["pv"]="1" #  31 cap / 30 day of month
 
-BIBLE_BOOK="ap"
+BIBLE_BOOK="pv"
 
 mkdir -p bible/$BIBLE_BOOK
 mkdir -p bible/reads
