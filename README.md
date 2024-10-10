@@ -1,3 +1,3 @@
 # Read of day
 
-- [pv (8 - 9)](bible/reads/today)
+- [pv (9 - 10)](bible/reads/today)
