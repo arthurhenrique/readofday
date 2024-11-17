@@ -1,3 +1,3 @@
 # Read of day
 
-- [sl (15 - 16)](bible/reads/today)
+- [sl (16 - 17)](bible/reads/today)
